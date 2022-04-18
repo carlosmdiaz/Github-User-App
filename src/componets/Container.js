@@ -4,7 +4,7 @@ import { useEffect, useRef, useState} from 'react'
 import UserInput from './UserInput';
 import UserContent from './UserContent';
 
-function Container({info, setUser, inputRef, dateSplit, months}) {
+function Container({ setUser, inputRef, dateSplit, months}) {
     
     
   return (
@@ -14,7 +14,6 @@ function Container({info, setUser, inputRef, dateSplit, months}) {
             setUser={setUser}
         />
         <UserContent 
-            info={info}
             dateSplit={dateSplit}
             months={months}
         />

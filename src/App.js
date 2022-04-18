@@ -3,6 +3,9 @@ import axios from 'axios';
 import { useEffect, useRef, useState} from 'react'
 import Container from './componets/Container';
 
+import { useDispatch} from 'react-redux';
+import { setUserData } from './store/userDataSlice';
+
 // #1 npm install axios
 // #2 import axios from './axios'
 // #3 import useEffect hook
@@ -16,8 +19,9 @@ import Container from './componets/Container';
 
 function App() {
 
+  const dispatch = useDispatch();
   const [user, setUser] = useState("carlosmdiaz");
-    const [info, setInfo] = useState({});
+    // const [info, setInfo] = useState({});
     const inputRef = useRef();
     const [dateSplit, setDateSplit] = useState("");
     const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -26,19 +30,18 @@ function App() {
       const getUser = async () => {
         try{
           const response = await axios.get(`https://api.github.com/users/${user}`)
-          setInfo(response.data)
-          setDateSplit(info.created_at.split('T').shift().split('-'))
+          dispatch(setUserData(response.data));
+          setDateSplit(response.data.created_at.split('T').shift().split('-'))
         } catch (error) {
           console.log(error);
         }
       }
       return getUser();
-    }, [user]);
+    }, [user, dispatch]);
 
   return (
       <div className="App">
         <Container 
-          info ={info}
           setUser = {setUser}
           inputRef = {inputRef}
           dateSplit = {dateSplit}
